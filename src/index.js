@@ -285,6 +285,6 @@ function Map(props) {
     );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('report'));
 root.render(<SearchBox />);
 
