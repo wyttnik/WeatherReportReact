@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import {OpenMeteoModule} from "./api/weather";
 import * as d3 from "d3";
-import {CircleFlag} from 'react-circle-flags';
+import logos from "circle-flags/flags/*.svg";
 
 const openMeteoModule = new OpenMeteoModule();
 
 function SearchBox() {
+    const [placeName, setPlaceName] = useState('');
     const [showList, setShowList] = useState(false);
     const [showTemp, setShowTemp] = useState(false);
     const [longitude, setLongitude] = useState(0.0);
@@ -14,13 +15,12 @@ function SearchBox() {
     const [cities, setCities] = useState([]);
     const [clickCheck, setClickCheck] = useState(false);
     const [data, setData] = useState({});
-    let nameRef = useRef(null);
 
     const searchTemp = (lat,long,name) => {
         openMeteoModule.getTemperature(lat,long).then(res=>{
             res.name = name;
-            nameRef.current.value = name;
             setData(res);
+            setPlaceName(name);
             setShowTemp(true);
             setShowList(false);
             setLongitude(long);
@@ -31,19 +31,8 @@ function SearchBox() {
 
     const handleKeyUp = (e) => {
         if (e.key === 'Enter') {
-            if (clickCheck) searchTemp(latitude,longitude,nameRef.current.value);
+            if (clickCheck) searchTemp(latitude,longitude,placeName);
             else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
-        }
-        else{
-            nameRef.current.value = e.target.value;
-            openMeteoModule.getCities(e.target.value)
-                .then(res=>{
-                    if (res !== undefined) {
-                        setCities(res);
-                    }
-                });
-            setShowList(true);
-            setClickCheck(false);
         }
     };
 
@@ -51,8 +40,20 @@ function SearchBox() {
         setShowList(true);
     };
 
+    const handleTextChange = (e) => {
+        setPlaceName(e.target.value);
+        openMeteoModule.getCities(e.target.value)
+            .then(res=>{
+                if (res !== undefined) {
+                    setCities(res);
+                }
+            });
+        setShowList(true);
+        setClickCheck(false);
+    };
+
     const handleBtnClick = () => {
-        if (clickCheck) searchTemp(latitude,longitude,nameRef.current.value);
+        if (clickCheck) searchTemp(latitude,longitude,placeName);
             else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
     };
 
@@ -64,14 +65,15 @@ function SearchBox() {
     },[]);
     
     return(
-        <div className='output'>
+        <div className='weather-report' id='report'>
             <div className="search-box" id="area">
                 <div className="search-line">
                     <input type="text" id="place" placeholder='Type City Name'
-                        onClick={handleClick} ref={nameRef} onKeyUp={handleKeyUp}/>
+                        onClick={handleClick} value={placeName} onChange={handleTextChange} onKeyUp={handleKeyUp}/>
                     <input id="btn" type="button" value="See temperature" onClick={handleBtnClick}/>
                 </div> 
-                {showList && <ListContainer cities={cities} handleStates={{searchTemp}}/>}
+                {showList && <ListContainer place={placeName} cities={cities}
+                    handleStates={{searchTemp}}/>}
             </div>
             {showTemp && <Map data={data}/>}
         </div>
@@ -90,7 +92,7 @@ function ListItem(props) {
         <li className='option' onClick={()=>{props.handleStates.searchTemp(props.city.latitude,
                                                                             props.city.longitude,
                                                                             props.city.name)}}>
-            <CircleFlag countryCode={props.city.country_code.toLowerCase()} width='20' height='20'/>
+            <img src={logos[props.city.country_code.toLowerCase()]} width='20'/>
             {` ${props.city.name} `}
             <small className='smallText'>{(props.city.country ? props.city.country : '') 
                 + (props.city.admin1 ? ' ' + props.city.admin1 : '')}</small>
@@ -126,7 +128,6 @@ function Map(props) {
     const data = props.data, name = props.data.name;
     
     useEffect(()=> {
-        console.log('test');
         d3.select(containerRef.current).select('svg').remove();
         const dates = timeToMs(data);
         const d = getDataStructure(data);
@@ -279,11 +280,11 @@ function Map(props) {
     });
 
     return(
-        <div className="mapContainerMap" ref={containerRef}>
+        <div className="mapContainer map" ref={containerRef}>
         </div>
     );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('report'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<SearchBox />);
 

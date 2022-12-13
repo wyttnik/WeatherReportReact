@@ -9,13 +9,14 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@parcel/babel-preset-env": "^2.8.1",
+    "@parcel/resolver-glob": "^2.8.1",
     "parcel": "^2.8.1",
     "process": "^0.11.10"
   },
   "dependencies": {
     "d3": "^7.7.0",
     "react": "^18.2.0",
-    "react-circle-flags": "^0.0.18",
+    "circle-flags": "github:HatScripts/circle-flags",
     "react-dom": "^18.2.0"
   }
 }
