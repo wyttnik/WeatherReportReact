@@ -66,7 +66,7 @@ function Report() {
     },[]);
     
     return(
-        <div className='weather-report' id='report'>
+        <div className='report' id='result'>
             <div className="search-box" id="area">
                 <div className="search-line">
                     <input type="text" id="place" placeholder='Type City Name'
