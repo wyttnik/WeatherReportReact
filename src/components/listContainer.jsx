@@ -1,3 +1,4 @@
+import React from 'react';
 import logos from "circle-flags/flags/*.svg";
 
 function ListContainer(props) {
