@@ -1,5 +1,6 @@
 import {ListContainer} from "./listContainer";
 import {Map} from "./map";
+import {Map1} from "./map1";
 import {useEffect, useState} from "react";
 import {OpenMeteoModule} from "../api/weather";
 
@@ -75,7 +76,8 @@ function Report() {
                 {showList && <ListContainer place={placeName} cities={cities}
                     handleStates={{searchTemp}}/>}
             </div>
-            {showTemp && <Map data={data}/>}
+            {/* {showTemp && <Map data={data}/>} */}
+            <Map1 />
         </div>
     );
 };
