@@ -19,6 +19,7 @@ function SearchBox() {
     const searchTemp = (lat,long,name) => {
         openMeteoModule.getTemperature(lat,long).then(res=>{
             res.name = name;
+            console.log('test1');
             setData(res);
             setPlaceName(name);
             setShowTemp(true);
@@ -121,6 +122,7 @@ function timeToMs(data) {
 };
 
 function Map(props) {
+    console.log('test2');
     const margin = { left: 120, right: 120, top: 60, bottom: 30 };
     const width = 900, height = 400;
     const containerRef = useRef(null);
