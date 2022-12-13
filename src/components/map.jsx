@@ -150,6 +150,8 @@ function Map(props) {
         .attr("alignment-baseline", "middle");
         let x;
 
+        console.log('test55');
+
         const mouseout = () => {
             focus.style("opacity", 0)
             focusText.style("opacity", 0)
