@@ -75,7 +75,7 @@ function Report() {
                 {showList && <ListContainer place={placeName} cities={cities}
                     handleStates={{searchTemp}}/>}
             </div>
-            {/* {showTemp && <Map data={data}/>} */}
+            {showTemp && <Map data={data}/>}
         </div>
     );
 };

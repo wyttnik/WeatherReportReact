@@ -183,7 +183,7 @@ function Map(props) {
     });
 
     return(
-        <div className="mapContainer map" ref={containerRef}>
+        <div className="mapContainer" ref={containerRef}>
         </div>
     );
 };
