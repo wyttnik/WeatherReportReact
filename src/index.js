@@ -1,6 +1,4 @@
-import * as d3 from "d3";
-
-import {React} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Report} from "./components/report";
 

@@ -3,7 +3,7 @@ import {Map} from "./map";
 import {Map1} from "./map1";
 import {useEffect, useState} from "react";
 import {OpenMeteoModule} from "../api/weather";
-
+import React from 'react';
 const openMeteoModule = new OpenMeteoModule();
 
 function Report() {
@@ -77,7 +77,7 @@ function Report() {
                     handleStates={{searchTemp}}/>}
             </div>
             {/* {showTemp && <Map data={data}/>} */}
-            <Map1 />
+           /* <Map1 />*/
         </div>
     );
 };

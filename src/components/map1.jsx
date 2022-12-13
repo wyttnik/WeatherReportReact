@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import * as Geo from "../geo.json";
-import {useRef, useEffect} from "react";
+import React, {useRef, useEffect} from "react";
 
 function Map1(props){
     const width = 1000;

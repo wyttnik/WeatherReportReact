@@ -1,4 +1,5 @@
 import logos from "circle-flags/flags/*.svg";
+import React from 'react';
 
 function ListContainer(props) {
     const result = props.cities.map(city=><ListItem key={city.id.toString()}
