@@ -181,7 +181,7 @@ function Map(props) {
         svg
         .on('mousemove', mousemove)
         .on('mouseout', mouseout);
-    });
+    },[props]);
 
     return(
         <div className="mapContainer" ref={containerRef}>
