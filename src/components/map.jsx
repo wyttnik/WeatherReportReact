@@ -23,10 +23,10 @@ function timeToMs(data) {
 
 function Map(props) {
     console.log(props);
-    console.log(d3.select(containerRef.current));
     const margin = { left: 120, right: 120, top: 60, bottom: 30 };
     const width = 900, height = 400;
     const containerRef = useRef(null);
+    console.log(d3.select(containerRef.current));
     const ticks = 8;
     const data = props.data, name = props.data.name;
     
