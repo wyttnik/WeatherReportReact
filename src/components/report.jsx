@@ -1,12 +1,11 @@
 import {ListContainer} from "./listContainer";
 import {Map} from "./map";
-import {Map1} from "./map1";
 import {useEffect, useState} from "react";
 import {OpenMeteoModule} from "../api/weather";
-import React from 'react';
+
 const openMeteoModule = new OpenMeteoModule();
 
-function Report() {
+function Report(){
     const [placeName, setPlaceName] = useState('');
     const [showList, setShowList] = useState(false);
     const [showTemp, setShowTemp] = useState(false);
@@ -55,7 +54,7 @@ function Report() {
 
     const handleBtnClick = () => {
         if (clickCheck) searchTemp(latitude,longitude,placeName);
-            else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
+        else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
     };
 
     useEffect(()=>{
@@ -64,22 +63,21 @@ function Report() {
                 setShowList(false);
         };
     },[]);
-    
+
     return(
         <div className='report' id='result'>
             <div className="search-box" id="area">
                 <div className="search-line">
                     <input type="text" id="place" placeholder='Type City Name'
-                        onClick={handleClick} value={placeName} onChange={handleTextChange} onKeyUp={handleKeyUp}/>
+                           onClick={handleClick} value={placeName} onChange={handleTextChange} onKeyUp={handleKeyUp}/>
                     <input id="btn" type="button" value="See temperature" onClick={handleBtnClick}/>
-                </div> 
+                </div>
                 {showList && <ListContainer place={placeName} cities={cities}
-                    handleStates={{searchTemp}}/>}
+                                            handleStates={{searchTemp}}/>}
             </div>
-            {/* {showTemp && <Map data={data}/>} */}
-           /* <Map1 />*/
+             {showTemp && <Map data={data}/>}
         </div>
     );
-};
+}
 
 export {Report};
