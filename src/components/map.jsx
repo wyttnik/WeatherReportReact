@@ -32,12 +32,15 @@ function Map(props) {
     useEffect(()=> {
         console.log('test3');
         d3.select(containerRef.current).select('svg').remove();
+        console.log('testAfterRemove');
         const dates = timeToMs(data);
+        console.log('testDates');
         const d = getDataStructure(data);
         const svg = d3.select(containerRef.current)
         .append("svg")
         .attr('class','weatherBox')
         .attr("viewBox", [0, 0, width, height]);
+        console.log('testSvg');
         
         const x_scale = d3.scaleTime().range([margin.left, width - margin.right]);
         const y_scale = d3.scaleLinear().range([height - margin.bottom - margin.top, margin.top]);
@@ -150,7 +153,7 @@ function Map(props) {
         .attr("alignment-baseline", "middle");
         let x;
 
-        console.log('test55');
+        
 
         const mouseout = () => {
             focus.style("opacity", 0)
