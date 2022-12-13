@@ -130,6 +130,7 @@ function Map(props) {
     const data = props.data, name = props.data.name;
     
     useEffect(()=> {
+        console.log('test3');
         d3.select(containerRef.current).select('svg').remove();
         const dates = timeToMs(data);
         const d = getDataStructure(data);
