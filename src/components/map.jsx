@@ -31,6 +31,8 @@ function Map(props) {
     
     useEffect(()=> {
         console.log('test3');
+        console.log(d3.select(containerRef.current));
+        console.log(d3.select(containerRef.current).select('svg'));
         d3.select(containerRef.current).select('svg').remove();
         console.log('testAfterRemove');
         const dates = timeToMs(data);
