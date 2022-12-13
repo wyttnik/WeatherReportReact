@@ -1,12 +1,11 @@
 import {ListContainer} from "./listContainer";
 import {Map} from "./map";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {OpenMeteoModule} from "../api/weather";
 
 const openMeteoModule = new OpenMeteoModule();
 
 function Report(){
-    const [placeName, setPlaceName] = useState('');
     const [showList, setShowList] = useState(false);
     const [showTemp, setShowTemp] = useState(false);
     const [longitude, setLongitude] = useState(0.0);
@@ -14,13 +13,13 @@ function Report(){
     const [cities, setCities] = useState([]);
     const [clickCheck, setClickCheck] = useState(false);
     const [data, setData] = useState({});
+    let nameRef = useRef(null);
 
     const searchTemp = (lat,long,name) => {
         openMeteoModule.getTemperature(lat,long).then(res=>{
             res.name = name;
-            console.log('test1');
+            nameRef.current.value = name;
             setData(res);
-            setPlaceName(name);
             setShowTemp(true);
             setShowList(false);
             setLongitude(long);
@@ -31,8 +30,19 @@ function Report(){
 
     const handleKeyUp = (e) => {
         if (e.key === 'Enter') {
-            if (clickCheck) searchTemp(latitude,longitude,placeName);
+            if (clickCheck) searchTemp(latitude,longitude,nameRef.current.value);
             else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
+        }
+        else {
+            nameRef.current.value = e.target.value;
+            openMeteoModule.getCities(e.target.value)
+                .then(res=>{
+                    if (res !== undefined) {
+                        setCities(res);
+                    }
+                });
+            setShowList(true);
+            setClickCheck(false);
         }
     };
 
@@ -40,20 +50,8 @@ function Report(){
         setShowList(true);
     };
 
-    const handleTextChange = (e) => {
-        setPlaceName(e.target.value);
-        openMeteoModule.getCities(e.target.value)
-            .then(res=>{
-                if (res !== undefined) {
-                    setCities(res);
-                }
-            });
-        setShowList(true);
-        setClickCheck(false);
-    };
-
     const handleBtnClick = () => {
-        if (clickCheck) searchTemp(latitude,longitude,placeName);
+        if (clickCheck) searchTemp(latitude,longitude,nameRef.current.value);
         else if (cities.length !== 0) searchTemp(cities[0].latitude,cities[0].longitude,cities[0].name);
     };
 
@@ -69,11 +67,10 @@ function Report(){
             <div className="search-box" id="area">
                 <div className="search-line">
                     <input type="text" id="place" placeholder='Type City Name'
-                           onClick={handleClick} value={placeName} onChange={handleTextChange} onKeyUp={handleKeyUp}/>
+                           onClick={handleClick} ref={nameRef} onKeyUp={handleKeyUp}/>
                     <input id="btn" type="button" value="See temperature" onClick={handleBtnClick}/>
                 </div>
-                {showList && <ListContainer place={placeName} cities={cities}
-                                            handleStates={{searchTemp}}/>}
+                {showList && <ListContainer cities={cities} handleStates={{searchTemp}}/>}
             </div>
              {showTemp && <Map data={data}/>}
         </div>

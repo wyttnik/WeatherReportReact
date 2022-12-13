@@ -1,4 +1,5 @@
-import { CircleFlag } from 'react-circle-flags'
+import React from 'react';
+import { CircleFlag } from 'react-circle-flags';
 
 function ListContainer(props) {
     const result = props.cities.map(city=><ListItem key={city.id.toString()}
